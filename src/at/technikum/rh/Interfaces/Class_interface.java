@@ -1,6 +1,8 @@
 
 package at.technikum.rh.Interfaces;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Class_interface implements Url {
@@ -40,7 +42,21 @@ public class Class_interface implements Url {
     //Nicht
     @Override
     public Map<String, String> getParameter() {
-        return null;
+        Map<String, String> params = new HashMap<>();
+        String parameters = url.substring(url.lastIndexOf("?") + 1);
+
+        if (parameters.length() > 1) {
+            for (String param : parameters.split("&")) {
+                String[] pair = param.split("=");
+                String key = pair[0];
+                String value = "";
+                if (pair.length > 1) {
+                    value = pair[1];
+                }
+                params.put(key, value);
+            }
+        }
+        return params;
     }
 
     /*
@@ -54,7 +70,9 @@ public class Class_interface implements Url {
     */
     @Override
     public int getParameterCount() {
+        //return getParameter().size();
         //int t = url.indexOf("\\?");
+
         String[] rawurl = url.split("\\?");
         if (rawurl.length>=2){
             String [] parameter = rawurl[1].split("=");
@@ -64,9 +82,19 @@ public class Class_interface implements Url {
         else{
             return 0;
         }
+
     }
     @Override
     public String[] getSegments() {
+        String[] parts = url.split("/",4);
+        String url = parts[parts.length - 1];
+        String[] segments = url.split("/");
+        if(segments[segments.length - 1].contains("?")){
+            segments = Arrays.copyOf(segments, segments.length - 1);
+        }
+        //if(segments.length == 0) return new String[]{""};
+        return segments;
+        /*
         int tx = url.indexOf("/");
         int ty = url.indexOf("//");
         int tz = url.indexOf("?");
@@ -88,6 +116,8 @@ public class Class_interface implements Url {
                 String[] path1 ={"Antwort"};
                 return path1;
             }
+
+         */
     }
     @Override
     public String getFileName() {

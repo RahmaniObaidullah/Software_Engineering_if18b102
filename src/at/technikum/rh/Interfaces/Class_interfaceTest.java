@@ -1,5 +1,6 @@
 package at.technikum.rh.Interfaces;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -188,10 +189,39 @@ class Class_interfaceTest {
     //Segment
     @Test
     void getSegment_test_01() {
-        Class_interface url = new Class_interface("sda/sds/sda/test?a=1&b=2&c=3#aa");
-        String ext = url.getFragment();
-        Assertions.assertEquals("sds", ext);
+        Class_interface url = new Class_interface("https://example.com/root/desktop/Ordner/test.php?a=1&b=2&c=3");
+        String[] ext = url.getSegments();
+        String[] answer = {"root", "desktop", "test.php"};
+        Assert.assertArrayEquals(new String[] {"root","desktop", "Ordner"} ,ext);
+        //Assert.assertArrayEquals(answer,ext);
+        //Assertions.assertEquals(ext.Seq
     }
+    @Test
+    void getParameter_test_01() {
+        Class_interface url = new Class_interface("https://example.com/root/desktop/test?a=1&b=2&c=3");
+        String ext = url.getParameter().get("a");
+        Assertions.assertEquals("1", ext);
+
+        String ext1 = url.getParameter().get("b");
+        Assertions.assertEquals("2",ext1);
+
+        String ext2 = url.getParameter().get("c");
+        Assertions.assertEquals("3", ext2);
+    }
+
+    @Test
+    void getParameter_test_02() {
+        Class_interface url = new Class_interface("/test?x=1&y=2&z=3");
+        String ext = url.getParameter().get("x");
+        Assertions.assertEquals("1", ext);
+
+        String ext1 = url.getParameter().get("y");
+        Assertions.assertEquals("2",ext1);
+
+        String ext2 = url.getParameter().get("z");
+        Assertions.assertEquals("3", ext2);
+    }
+
 
 }
 
