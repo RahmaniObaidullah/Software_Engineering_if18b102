@@ -39,7 +39,6 @@ public class Class_interface implements Url {
         }
     }
 
-    //Nicht
     @Override
     public Map<String, String> getParameter() {
         Map<String, String> params = new HashMap<>();
@@ -59,15 +58,6 @@ public class Class_interface implements Url {
         return params;
     }
 
-    /*
-    @Override
-    public String getParameter(){
-        String[] rawurl = url.split("\\?");
-        String parameter_a = rawurl[1];
-        String[] parameter_b = parameter_a.split("#");
-        return parameter_b[1];
-    }
-    */
     @Override
     public int getParameterCount() {
         //return getParameter().size();
@@ -94,30 +84,6 @@ public class Class_interface implements Url {
         }
         //if(segments.length == 0) return new String[]{""};
         return segments;
-        /*
-        int tx = url.indexOf("/");
-        int ty = url.indexOf("//");
-        int tz = url.indexOf("?");
-            if (ty > 0 && tz > 0) {
-                String[] without_parameter = url.split("\\?");
-                String[] without_https = without_parameter[0].split("//");
-                String[] path_both = without_https[1].split("/", 2);
-                return path_both;
-            } else if (url.indexOf("//") > 0) {
-                String[] new_url = url.split("//");
-                String[] path = new_url[1].split("/");
-                return path;
-            } else if (url.indexOf("?") > 0) {
-                String[] without_parameter = url.split("\\?");
-                String[] path_b = without_parameter[0].split("/");
-                return path_b;
-            }
-            else{
-                String[] path1 ={"Antwort"};
-                return path1;
-            }
-
-         */
     }
     @Override
     public String getFileName() {
