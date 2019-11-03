@@ -1,5 +1,6 @@
-package at.technikum.rh.Interfaces;
+package at.technikum.rh.Unit_Test;
 
+import at.technikum.rh.main_programs.url.Class_interface;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ class Class_interfaceTest {
     public void raw_url_test_1() {
         Class_interface object = new Class_interface("https://example.com/root/desktop/test.php?a=1&b=2&c=3#aa");
         String output = object.getRawUrl();
-        //Assertions.assertNotNull("Wrong result", object);
+        //Assertions.assertNotNull("", object);
         Assertions.assertEquals("https://example.com/root/desktop/test.php?a=1&b=2&c=3#aa", output);
     }
 
@@ -174,18 +175,21 @@ class Class_interfaceTest {
         String ext = url.getFragment();
         Assertions.assertEquals("", ext);
     }
+
     @Test
     void getFragment_test_02() {
         Class_interface url = new Class_interface("https://example.com/root/desktop/test?a=1&b=2&c=3#aa");
         String ext = url.getFragment();
         Assertions.assertEquals("aa", ext);
     }
+
     @Test
     void getFragment_test_03() {
         Class_interface url = new Class_interface("/test?a=1&b=2&c=3#aa");
         String ext = url.getFragment();
         Assertions.assertEquals("aa", ext);
     }
+
     //Segment
     @Test
     void getSegment_test_01() {
@@ -209,6 +213,7 @@ class Class_interfaceTest {
         Assertions.assertEquals("3", ext2);
     }
 
+
     @Test
     void getParameter_test_02() {
         Class_interface url = new Class_interface("/test?x=1&y=2&z=3");
@@ -220,7 +225,10 @@ class Class_interfaceTest {
 
         String ext2 = url.getParameter().get("z");
         Assertions.assertEquals("3", ext2);
+
+
     }
+
 
 
 }

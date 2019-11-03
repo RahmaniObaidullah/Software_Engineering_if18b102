@@ -1,5 +1,7 @@
 
-package at.technikum.rh.Interfaces;
+package at.technikum.rh.main_programs.url;
+
+import at.technikum.rh.Interfaces.Url;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,7 +12,6 @@ public class Class_interface implements Url {
     @Override
     public String getRawUrl() {
         return url;
-
     }
     @Override
     public String getPath() {
@@ -18,8 +19,8 @@ public class Class_interface implements Url {
         int ty = url.indexOf("//");
         int tz = url.indexOf("?");
         if (tx < 0) return "";
-        else{
-        if (ty > 0 && tz > 0){
+        else{ //Stru. //if
+            if (ty > 0 && tz > 0){
             String[] without_parameter= url.split("\\?");
             String[] without_https = without_parameter[0].split("//");
             String[] path_both = without_https[1].split("/", 2);

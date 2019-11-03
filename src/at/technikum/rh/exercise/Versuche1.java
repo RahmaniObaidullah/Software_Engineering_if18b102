@@ -1,3 +1,5 @@
+package at.technikum.rh.exercise;
+
 public class Versuche1 {
 
     public static void main (String[] args){
