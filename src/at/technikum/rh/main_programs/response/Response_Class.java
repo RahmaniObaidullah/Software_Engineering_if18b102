@@ -1,5 +1,5 @@
 package at.technikum.rh.main_programs.response;
-
+//Response
 import at.technikum.rh.Interfaces.Response;
 
 import java.io.IOException;

@@ -9,7 +9,7 @@ import java.util.Map;
 import static junit.framework.TestCase.assertEquals;
 
 public class ResponseClass_Test {
-
+//Test for Response
     private Response_Class response = new Response_Class();
 
     /**               Content                 **/
