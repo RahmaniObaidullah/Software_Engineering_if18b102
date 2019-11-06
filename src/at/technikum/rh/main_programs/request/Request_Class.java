@@ -1,13 +1,12 @@
 package at.technikum.rh.main_programs.request;
 
 
+
 import at.technikum.rh.Interfaces.Request;
 import at.technikum.rh.Interfaces.Url;
 import at.technikum.rh.main_programs.url.Class_interface;
+import org.apache.commons.io.IOUtils;
 
-//import org.apache.commons.io.IOUtils;
-
-import javax.naming.LinkException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +14,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.nio.Buffer;
 
 public class Request_Class implements Request {
     private String httpversion;
@@ -168,7 +166,7 @@ public class Request_Class implements Request {
      */
     @Override
     public String getContentString() throws IOException{
-        return this.inputStream != null ? IOUtils.toString(this.inputStream, StandardCharsets.UTF_8) : null;
+        return this.inputStream != null ? IOUtils.toString(this.inputStream, String.valueOf(StandardCharsets.UTF_8)) : null;
     }
     /**
      * @return Returns the request content (body) as byte[] or null if there is
