@@ -23,7 +23,7 @@ public class Request_Class implements Request {
     private InputStream inputStream;
     private Map<String,String> myheader = new HashMap<>();
 
-    private void header_InputStream() throws IOException {
+    private void header_resolve_InputStream() throws IOException {
         String line; String[] header_segments; String new_line;
         //getBytes for UTF_8
         BufferedReader br = new BufferedReader(new InputStreamReader(this.inputStream, StandardCharsets.UTF_8));
@@ -40,18 +40,18 @@ public class Request_Class implements Request {
         //GET UpperCase
         methode = header_segments[0].toUpperCase();
 
-        while ((new_line = br.readLine()) != null){
+        while ((new_line = br.readLine()) != null && !new_line.isEmpty()){
             //Header without the first line
             String[] header = new_line.split(":", 2);
-            myheader.put(header[0].toLowerCase(), header[1]);
+            this.myheader.put(header[0].toLowerCase(), header[1]);
         }
     }
 
-
     public Request_Class(InputStream inputStream) throws Exception{
         this.inputStream = inputStream;
-        header_InputStream();
+        header_resolve_InputStream();
     }
+
 
     /**
      * @return Returns true if the request is valid. A request is valid, if
@@ -67,9 +67,12 @@ public class Request_Class implements Request {
                 }
             }
         }
+        /*
         else if (methode.length() != 3){
             return false;
         }
+
+         */
         return false;
     }
 
@@ -125,9 +128,9 @@ public class Request_Class implements Request {
      */
     @Override
     public String getUserAgent() {
-        //return this.myheader.getOrDefault("User-Agent", null);
+        //return this.myheader.getOrDefault("user-agent", null);
         if(this.myheader.size() > 0){
-            return this.myheader.getOrDefault("User-Agent", null);
+            return this.myheader.getOrDefault("user-agent", null);
         }
         return null;
     }
@@ -138,7 +141,7 @@ public class Request_Class implements Request {
      */
     @Override
     public int getContentLength() {
-        return Integer.parseInt(this.myheader.get("Content-Length"));
+        return Integer.parseInt(this.myheader.get("content-length"));
     }
 
     /**
@@ -147,10 +150,14 @@ public class Request_Class implements Request {
      */
     @Override
     public String getContentType() {
+        //return this.myheader.getOrDefault("content-type", "");
+
         if(this.myheader.size() > 0){
-            return this.myheader.get("Content-Type");
+            return this.myheader.getOrDefault("content-type", "");
         }
         return "";
+
+
     }
     /**
      * @return Returns the request content (body) stream or null if there is no

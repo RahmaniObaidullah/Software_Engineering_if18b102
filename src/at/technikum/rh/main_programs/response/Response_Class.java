@@ -56,12 +56,40 @@ public class Response_Class implements Response {
     @Override
     public void setStatusCode(int status) {
         this.status_code=status;
+        /** 200 Statuscode */
         if(status == 200)
             this.status_server = "200 OK";
+        else if(status == 202)
+            this.status_server = "202 Accepted";
+        else if (status == 205)
+            this.status_server = "205 Reset Content";
+        else if (status == 207)
+            this.status_server = "207 Multi-Status";
+        else if (status == 226)
+            this.status_server = "IM Used";
+        /** 300 Statuscode */
+        else if(status == 300)
+            this.status_server = "300 Multiple Choices";
+        else if (status == 304)
+            this.status_server = "304 Not Modified";
+        /** 400 Statuscode */
+        else if(status == 400)
+            this.status_server = "400 Bad Request\t";
+        else if (status == 401)
+            this.status_server = "401 Unauthorized";
         else if (status == 404)
             this.status_server = "404 Was Not Found";
+        else if (status == 408)
+            this.status_server = "408 Request Timeout\t";
+        /** 500 Statuscode */
         else if (status == 500)
             this.status_server = "500 Internal Server Error";
+        else if (status == 502)
+            this.status_server = "502 Bad Gateway";
+        else if (status == 505)
+            this.status_server = "505 HTTP Version not supported";
+        else if (status == 511)
+            this.status_server = "511 Network Authentication Required";
     }
 
     @Override
@@ -84,7 +112,7 @@ public class Response_Class implements Response {
 
     @Override
     public void setServerHeader(String server) {
-        this.myheader.put("Server", server);
+        this.myheader.put("Server_SW", server);
     }
 
     @Override

@@ -33,38 +33,38 @@ public class ResponseClass_Test {
     }
     @Test
     void getHeader_Test2(){
-        assertEquals(Map.of("Server_SW", "Server"), response.getHeaders());
+        assertEquals(Map.of("Server_SW", "Rahmani-Obaidullah-Server"), response.getHeaders());
     }
     @Test
     void getServerHeader(){
         String myheader = "TestHeader";
         response.setServerHeader(myheader);
-        assertEquals(Map.of("Server", myheader), response.getHeaders());
+        assertEquals(Map.of("Server_SW", myheader), response.getHeaders());
     }
     /**               Status-test                  **/
     @Test
-    void getStatusCode(){
+    void getStatusCode_test1(){
         int code_test = 200;
         response.setStatusCode(code_test);
         assertEquals(code_test, response.getStatusCode());
     }
     @Test
-    void getStatus_test1(){
+    void getStatusCode_test2(){
+        int code_test = 404;
+        response.setStatusCode(code_test);
+        assertEquals(code_test, response.getStatusCode());
+    }
+    @Test
+    void getStatusCode_test3(){
+        int code_test = 500;
+        response.setStatusCode(code_test);
+        assertEquals(code_test, response.getStatusCode());
+    }
+    @Test
+    void getStatus_test1() {
         int code_test = 200;
         String status = "200 OK";
+        response.setStatusCode(code_test);
         assertEquals(status, response.getStatus());
     }
-    @Test
-    void getStatus_test2(){
-        int code_test = 404;
-        String status = "404 Was Not Found";
-        assertEquals(status, response.getStatus());
-    }
-    @Test
-    void getStatus_test3(){
-        int code_test = 500;
-        String status = "500 Internal Server Error";
-        assertEquals(status, response.getStatus());
-    }
-
 }
