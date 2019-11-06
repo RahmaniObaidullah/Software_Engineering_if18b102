@@ -5,6 +5,7 @@ import at.technikum.rh.Interfaces.Request;
 import at.technikum.rh.Interfaces.Url;
 import at.technikum.rh.main_programs.url.Class_interface;
 
+//import org.apache.commons.io.IOUtils;
 
 import javax.naming.LinkException;
 import java.io.BufferedReader;
@@ -28,11 +29,9 @@ public class Request_Class implements Request {
         String line; String[] header_segments; String new_line;
         //getBytes for UTF_8
         BufferedReader br = new BufferedReader(new InputStreamReader(this.inputStream, StandardCharsets.UTF_8));
-
         line = br.readLine();
-        if(line==null){
 
-        }
+        if(line==null)  throw new IllegalStateException();
 
         //first line Header GET /URL HTTP/1.0
         header_segments = line.split(" ", 3);
@@ -73,7 +72,6 @@ public class Request_Class implements Request {
         else if (methode.length() != 3){
             return false;
         }
-        else  return false;
         return false;
     }
 
@@ -84,7 +82,7 @@ public class Request_Class implements Request {
 
     @Override
     public String getMethod() {
-        //nicht sicher
+
         return this.isValid() ? this.methode : null;
     }
 
@@ -154,7 +152,7 @@ public class Request_Class implements Request {
         if(this.myheader.size() > 0){
             return this.myheader.get("Content-Type");
         }
-        return null;
+        return "";
     }
     /**
      * @return Returns the request content (body) stream or null if there is no
@@ -170,7 +168,7 @@ public class Request_Class implements Request {
      */
     @Override
     public String getContentString() throws IOException{
-        //return this.inputStream != null ? IOUtils.toString(this.inputStream, StandardCharsets.UTF_8) : null;
+        return this.inputStream != null ? IOUtils.toString(this.inputStream, StandardCharsets.UTF_8) : null;
     }
     /**
      * @return Returns the request content (body) as byte[] or null if there is
@@ -178,7 +176,6 @@ public class Request_Class implements Request {
      */
     @Override
     public byte[] getContentBytes() throws IOException{
-
-        //return IOUtils.toByteArray(this.inputStream);
+        return IOUtils.toByteArray(this.inputStream);
     }
 }

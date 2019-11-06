@@ -19,15 +19,14 @@ public class ServerGo {
     //@Override
     public void run(){
         try{
-            Request_Class _request = new Request_Class(serversocket.getInputStream());
+            Request_Class _request = new Request_Class(this.serversocket.getInputStream());
 
-            if(!_request.isValid()){
-                serversocket.close();
-            }
+            if(!_request.isValid()) this.serversocket.close();
+
             Response_Class response = new Response_Class();
             response.setStatusCode(200);
-            response.setContent("Test01");
-            response.send(serversocket.getOutputStream());
+            response.setContent("Test_SW_01");
+            response.send(this.serversocket.getOutputStream());
         } catch (Exception e){
             e.printStackTrace();
         }

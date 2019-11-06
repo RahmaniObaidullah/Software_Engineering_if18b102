@@ -2,6 +2,7 @@ package at.technikum.rh.main_programs.response;
 
 import at.technikum.rh.Interfaces.Response;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -38,6 +39,7 @@ public class Response_Class implements Response {
     @Override
     public void setContentType(String contentType) {
         myheader.put("Content-Type", contentType);
+        this.content_type = contentType;
     }
 
     @Override
@@ -103,12 +105,29 @@ public class Response_Class implements Response {
             this.content = stream.readAllBytes();
             this.content_length=content.length;
         }catch (Exception e){
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
     public void send(OutputStream network) {
+        try{
+            if(this.status_server == null || this.content.length == 0)
+                throw new IllegalStateException("No contend or status code set.");
+            StringBuilder responseHeader = new StringBuilder();
+            responseHeader.append("HTTP/1.1").append(getStatus()).append("\n");
+            responseHeader.append("Content-Length: ").append(getContentLength()).append("\n");
 
+            for (Map.Entry<String,String> entry: myheader.entrySet()){
+                responseHeader.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+            }
+            responseHeader.append("\n");
+
+            network.write(responseHeader.toString().getBytes());
+            network.write(content);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }
