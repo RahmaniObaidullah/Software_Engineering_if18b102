@@ -8,25 +8,27 @@ import java.net.Socket;
 
 //Classes
 
-public class ServerGo {
+public class ServerGo implements Runnable {
     private Socket serversocket;
-
-    //Getter
     ServerGo(Socket _serversocket){
         this.serversocket = _serversocket;
     }
-
-    //@Override
+    @Override
     public void run(){
         try{
             Request_Class _request = new Request_Class(this.serversocket.getInputStream());
+            Response_Class _response = new Response_Class();
 
-            if(!_request.isValid()) this.serversocket.close();
-
-            Response_Class response = new Response_Class();
-            response.setStatusCode(200);
-            response.setContent("Test_SW_01");
-            response.send(this.serversocket.getOutputStream());
+            if(!_request.isValid()){
+                _response.setStatusCode(400);
+                _response.setContent("Server-Code 400");
+                serversocket.close();
+            }
+            else{
+                _response.setStatusCode(200);
+                _response.setContent("Software Engineering - Obaidullah Rahmani");
+            }
+            _response.send(this.serversocket.getOutputStream());
         } catch (Exception e){
             e.printStackTrace();
         }

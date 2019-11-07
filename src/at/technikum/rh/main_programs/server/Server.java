@@ -12,7 +12,7 @@ public class Server {
         ServerSocket serversocket = new ServerSocket(port_number);
         while (!serversocket.isClosed()){
             ServerGo serverGo = new ServerGo(serversocket.accept());
-            Thread t = new Thread((Runnable) serverGo);
+            Thread t = new Thread(serverGo);
             t.start();
         }
     }

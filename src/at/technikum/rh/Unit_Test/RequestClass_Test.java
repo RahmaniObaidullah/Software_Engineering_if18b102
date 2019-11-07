@@ -24,11 +24,6 @@ public class RequestClass_Test {
     }
 
     /**               Content                  **/
-    @Test
-    void getContentLength() throws Exception {
-        request = new Request_Class(CreateRequest_test.getValidRequestStream(test_url, "GET", "hello world"));
-        assertEquals(11, request.getContentLength());
-    }
 
     @Test
     void getContentType() throws Exception {

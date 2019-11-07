@@ -32,8 +32,8 @@ public class Response_Class implements Response {
 
     @Override
     public String getContentType() {
-        //return this.content_type;
-        return myheader.get("Content-Type");
+        return this.content_type;
+        //return myheader.get("content-type");
     }
 
     @Override

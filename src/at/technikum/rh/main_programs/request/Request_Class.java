@@ -5,7 +5,7 @@ package at.technikum.rh.main_programs.request;
 
 import at.technikum.rh.Interfaces.Request;
 import at.technikum.rh.Interfaces.Url;
-import at.technikum.rh.main_programs.url.Class_interface;
+import at.technikum.rh.main_programs.url.UrlImpl;
 import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedReader;
@@ -20,7 +20,7 @@ public class Request_Class implements Request {
     private String httpversion;
     private String methode;
     //Class for URL
-    private Class_interface UrlClass = new Class_interface("/");
+    private UrlImpl UrlClass = new UrlImpl("/");
     private InputStream inputStream;
     private Map<String,String> myheader = new HashMap<>();
 
@@ -35,7 +35,7 @@ public class Request_Class implements Request {
         //first line Header GET /URL HTTP/1.0
         header_segments = line.split(" ", 3);
         //URL in Class URL
-        UrlClass = new Class_interface(header_segments[1]);
+        UrlClass = new UrlImpl(header_segments[1]);
         //Used HTTP-Version
         httpversion = header_segments[2];
         //GET UpperCase
