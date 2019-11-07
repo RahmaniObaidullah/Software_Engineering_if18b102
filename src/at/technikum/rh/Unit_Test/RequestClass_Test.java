@@ -38,9 +38,9 @@ public class RequestClass_Test {
 
     @Test
     void getContentStream() throws Exception {
-        InputStream inpStream = CreateRequest_test.getValidRequestStream(test_url, "GET", "hello world");
-        request = new Request_Class(inpStream);
-        assertEquals(inpStream, request.getContentStream());
+        InputStream inputStream = CreateRequest_test.getValidRequestStream(test_url, "GET", "hello world");
+        request = new Request_Class(inputStream);
+        assertEquals(inputStream, request.getContentStream());
     }
 
     @Test
@@ -52,9 +52,9 @@ public class RequestClass_Test {
 
     @Test
     void getContentBytes() throws Exception {
-        InputStream inpStream = CreateRequest_test.getValidRequestStream(test_url, "GET", "hello world");
-        request = new Request_Class(inpStream);
-        assertEquals(IOUtils.toByteArray(inpStream), request.getContentBytes());
+        InputStream inputStream = CreateRequest_test.getValidRequestStream(test_url, "GET", "hello world");
+        request = new Request_Class(inputStream);
+        assertEquals(IOUtils.toByteArray(inputStream), request.getContentBytes());
     }
     /**               URL                  **/
     @Test

@@ -15,7 +15,7 @@ public class ResponseClass_Test {
     /**               Content                 **/
     @Test
     void getContent(){
-        String _content_test="Test Content";
+        String _content_test="Test-Content";
         response.setContent(_content_test);
         assertEquals(_content_test.length(), response.getContentLength());
     }
@@ -33,6 +33,7 @@ public class ResponseClass_Test {
     }
     @Test
     void getHeader_Test2(){
+
         assertEquals(Map.of("Server_SW", "Rahmani-Obaidullah-Server"), response.getHeaders());
     }
     @Test
