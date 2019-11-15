@@ -8,12 +8,13 @@ import java.net.ServerSocket;
 
 public class Server {
 
-    public void start_server(int port_number) throws IOException{
-        ServerSocket serversocket = new ServerSocket(port_number);
+    public void start_server(int _port_number, String _myFileName) throws IOException{
+        ServerSocket serversocket = new ServerSocket(_port_number);
         while (!serversocket.isClosed()){
-            ServerGo serverGo = new ServerGo(serversocket.accept());
-            Thread t = new Thread(serverGo);
-            t.start();
+            //Filename wird dann in der Main-Methode hinzugefuegt (neu)
+            ServerGo serverGo = new ServerGo(serversocket.accept(),_myFileName);
+            Thread thread_for_sockets = new Thread(serverGo);
+            thread_for_sockets.start();
         }
     }
 

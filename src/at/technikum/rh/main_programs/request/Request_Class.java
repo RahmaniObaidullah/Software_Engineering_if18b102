@@ -30,7 +30,7 @@ public class Request_Class implements Request {
         BufferedReader br = new BufferedReader(new InputStreamReader(this.inputStream, StandardCharsets.UTF_8));
         line = br.readLine();
 
-        if(line==null)  throw new IllegalStateException();
+        //if(line==null)  throw new IllegalStateException();
 
         //first line Header GET /URL HTTP/1.0
         header_segments = line.split(" ", 3);
