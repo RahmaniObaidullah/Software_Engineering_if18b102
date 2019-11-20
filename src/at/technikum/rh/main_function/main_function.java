@@ -23,7 +23,8 @@ public class main_function {
             System.out.println("The server will be started shortly");
             System.out.println("The server will be started on the port"+myport);
             my_newServer = new Server();
-            my_newServer.start_server(myport,myInputFile1);
+            //my_newServer.start_server(myport,myInputFile1);
+            my_newServer.start_server(myport);
             System.out.println("The server has now been started");
         } catch (Exception e){
             System.out.println("Error happened!\n Erro Meesage"+e.getMessage());

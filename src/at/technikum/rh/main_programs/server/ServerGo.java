@@ -1,6 +1,7 @@
 package at.technikum.rh.main_programs.server;
 
 //Interfaces
+
 import at.technikum.rh.main_programs.request.Request_Class;
 import at.technikum.rh.main_programs.response.Response_Class;
 
@@ -13,9 +14,15 @@ import java.nio.file.Paths;
 public class ServerGo implements Runnable {
     private Socket serversocket; private String input_fileName;
     //ServerGo wurde um eine Variable erweitert (Filename kann jetzt gelesen werden)
+
+    /*
     ServerGo(Socket _serversocket, String _myFileName){
         this.serversocket = _serversocket;
         this.input_fileName = _myFileName;
+    }
+     */
+    ServerGo(Socket _serversocket){
+        this.serversocket = _serversocket;
     }
     @Override
     public void run(){
@@ -36,7 +43,13 @@ public class ServerGo implements Runnable {
                  */
                 /** Files.readAllBytes(Paths.get(..) diese Funktion wird dafuer verwendet, damit die jeweiligen
                  * Filese gelesen werden. */
-                _response.setContent(Files.readAllBytes(Paths.get(input_fileName)));
+                //_response.setContent(Files.readAllBytes(Paths.get(input_fileName)));
+                /** Ueber URL Bilder und texte lesen koennen*/
+                _response.setContent(Files.readAllBytes(Paths.get(
+                                            System.getProperty("user.dir")+
+                                                    "/src/at/technikum/rh/myFiles/"+
+                                                    _request.getUrl().getFileName())));
+
             }
             _response.send(this.serversocket.getOutputStream());
         } catch (Exception e){
