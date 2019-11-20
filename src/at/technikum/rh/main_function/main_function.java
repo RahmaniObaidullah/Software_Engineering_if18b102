@@ -17,13 +17,13 @@ public class main_function {
         String myInputFile4 = System.getProperty("user.dir")+ "/src/at/technikum/rh/myFiles/htmlSeite.html";
         /**
         Bei my_newServer.start_server(... die gewuenschte variable aendern, damit zum beispiel png
-        statt jpg getestet wird
+        statt jpg getestet wird.
          */
         try{
             System.out.println("The server will be started shortly");
             System.out.println("The server will be started on the port"+myport);
             my_newServer = new Server();
-            my_newServer.start_server(myport,myInputFile3);
+            my_newServer.start_server(myport,myInputFile1);
             System.out.println("The server has now been started");
         } catch (Exception e){
             System.out.println("Error happened!\n Erro Meesage"+e.getMessage());
@@ -34,11 +34,11 @@ public class main_function {
 
 /**
  * Antwort auf die Frage:
- * Durch die Google-Recherche habe ich mehrere Wege gefunden, wie man ein File (Text oder Bild),
- * auslesen konnte, wie z. B. mit konnte es auch mit BufferedReader die Files, sei es auch Bild auslesen,
+ * Durch die Google-Recherche habe ich mehrere Wege herausgefunden, wie man ein File (Text oder Bild),
+ * auslesen konnte, wie z. B. man kann es mit BufferedReader die Files, sei es Bild in jpg oder png Format auslesen,
  * die veriante besteht aus mehreren Code-Zeilen.
  * Durch die Bibliotheken Files & Paths braucht man wenige Befehle um das ganze umzusetzen.
- * Links, die fuer die Recherche verwendet wurden:
+ * Links, die ich durch die Recherche gefunden habe, die fuer diese Aufgabe nuetzlich waren
     * https://docs.oracle.com/javase/7/docs/api/java/io/File.html
     * https://docs.oracle.com/javase/7/docs/api/java/io/File.html#toPath()
     * https://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html
