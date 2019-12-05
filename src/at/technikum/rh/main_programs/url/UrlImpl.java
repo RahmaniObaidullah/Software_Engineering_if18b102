@@ -130,6 +130,8 @@ public class UrlImpl implements Url {
     public UrlImpl(String url){
         this.url=url;
     }
+
+
     public static void main(String[] args){
         System.out.println("Test");
     }

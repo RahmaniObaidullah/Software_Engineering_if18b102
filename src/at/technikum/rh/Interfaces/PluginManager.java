@@ -1,6 +1,8 @@
 package at.technikum.rh.Interfaces;
 
-import java.lang.Iterable;
+import at.technikum.rh.main_programs.Plugin.Plugin_Class;
+
+import java.util.List;
 
 public interface PluginManager {
     /**
@@ -8,14 +10,12 @@ public interface PluginManager {
      * TODO: Refactor to List<Plugin>, Enumeration is deprecated
      * @return
      */
-    Iterable<Plugin> getPlugins();
-
-
+    public List<Plugin_Class> getPlugins();
     /**
      * Adds a new plugin. If the plugin was already added, nothing will happen.
      * @param plugin
      */
-    void add(Plugin plugin);
+    void add(Plugin_Class plugin);
 
     /**
      * Adds a new plugin by class name. If the plugin was already added, nothing will happen.
@@ -26,9 +26,6 @@ public interface PluginManager {
      * @throws InstantiationException
      */
     void add(String plugin) throws InstantiationException, IllegalAccessException, ClassNotFoundException;
-
-
-
     /**
      * Clears all plugins
      */

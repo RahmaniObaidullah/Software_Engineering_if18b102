@@ -12,9 +12,9 @@ public class Response_Class implements Response {
 
     private Map<String,String> myheader = new HashMap<>();
     //vari for content methods
-    private byte[] content; private String content_type; private int content_length;
+    private byte[] content; public String content_type; private int content_length;
     //vari for status methods
-    private String status_server; private int status_code; private String server_header;
+    private String status_server; public int status_code; private String server_header;
 
     public Response_Class(){
         this.myheader.put("Server_SW", "Rahmani-Obaidullah-Server");

@@ -1,31 +1,21 @@
 package at.technikum.rh.Interfaces;
 
-import java.lang.Iterable;
+import at.technikum.rh.main_programs.request.Request_Class;
 
 public interface Plugin {
     /**
-     * Returns a list of all plugins. Never returns null.
-     * TODO: Refactor to List<Plugin>, Enumeration is deprecated
-     * @return
+     * Returns a score between 0 and 1 to indicate that the plugin is willing to
+     * handle the request. The plugin with the highest score will execute the
+     * request.
+     * @param req
+     * @return A score between 0 and 1
      */
-    Iterable<Plugin> getPlugins();
-    /**
-     * Adds a new plugin. If the plugin was already added, nothing will happen.
-     * @param plugin
-     */
-    void add(Plugin plugin);
+    float canHandle(Request_Class req);
 
     /**
-     * Adds a new plugin by class name. If the plugin was already added, nothing will happen.
-     * Throws an exeption, when the type cannot be resoled or the class does not implement Plugin.
-     * @param plugin
-     * @throws ClassNotFoundException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
+     * Called by the server when the plugin should handle the request.
+     * @param req
+     * @return A new response object.
      */
-    void add(String plugin) throws InstantiationException, IllegalAccessException, ClassNotFoundException;
-    /**
-     * Clears all plugins
-     */
-    void clear();
+    Response handle(Request_Class req);
 }

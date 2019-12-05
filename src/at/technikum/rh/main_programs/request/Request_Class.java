@@ -20,7 +20,7 @@ public class Request_Class implements Request {
     private String httpversion;
     private String methode;
     //Class for URL
-    private UrlImpl UrlClass = new UrlImpl("/");
+    public UrlImpl UrlClass = new UrlImpl("/");
     private InputStream inputStream;
     private Map<String,String> myheader = new HashMap<>();
 
