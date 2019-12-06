@@ -2,6 +2,8 @@ package at.technikum.rh.Interfaces;
 
 import at.technikum.rh.main_programs.request.Request_Class;
 
+import java.io.IOException;
+
 public interface Plugin {
     /**
      * Returns a score between 0 and 1 to indicate that the plugin is willing to
@@ -17,5 +19,5 @@ public interface Plugin {
      * @param req
      * @return A new response object.
      */
-    Response handle(Request_Class req);
+    Response handle(Request_Class req) throws IOException;
 }

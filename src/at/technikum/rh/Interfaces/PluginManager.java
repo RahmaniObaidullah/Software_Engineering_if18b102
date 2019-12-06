@@ -2,15 +2,13 @@ package at.technikum.rh.Interfaces;
 
 import at.technikum.rh.main_programs.Plugin.Plugin_Class;
 
-import java.util.List;
-
 public interface PluginManager {
     /**
      * Returns a list of all plugins. Never returns null.
      * TODO: Refactor to List<Plugin>, Enumeration is deprecated
      * @return
      */
-    public List<Plugin_Class> getPlugins();
+    public Iterable<Plugin_Class> getPlugins();
     /**
      * Adds a new plugin. If the plugin was already added, nothing will happen.
      * @param plugin

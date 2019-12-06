@@ -15,7 +15,10 @@ public class PluginManager_CLass implements PluginManager{
      */
     //private final List<Plugin_Class> plugin_list = toList();
     @Override
-    public List<Plugin_Class> getPlugins() {
+    public Iterable<Plugin_Class> getPlugins() {
+        if(Iplug.isEmpty())
+            //Iplug.add(new Homepage());
+            return null;
         return Iplug;
     }
 

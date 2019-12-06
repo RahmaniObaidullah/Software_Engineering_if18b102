@@ -28,8 +28,8 @@ public class ServerGo implements Runnable {
     public void run(){
         try{
             Request_Class _request = new Request_Class(this.serversocket.getInputStream());
-            //Response_Class _response = new Response_Class();
-            Response_Class _response = null;
+            Response_Class _response = new Response_Class();
+            //Response_Class _response = null;
             if(!_request.isValid()){
                 _response.setStatusCode(400);
                 _response.setContent("Server-Code 400 - is a bad Request");
