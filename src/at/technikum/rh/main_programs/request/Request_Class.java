@@ -6,12 +6,12 @@ package at.technikum.rh.main_programs.request;
 import at.technikum.rh.Interfaces.Request;
 import at.technikum.rh.Interfaces.Url;
 import at.technikum.rh.main_programs.url.UrlImpl;
-import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,9 +23,23 @@ public class Request_Class implements Request {
     public UrlImpl UrlClass = new UrlImpl("/");
     private InputStream inputStream;
     private Map<String,String> myheader = new HashMap<>();
-
+    private byte[] myContentBytes;
     private void header_resolve_InputStream() throws IOException {
         String line; String[] header_segments; String new_line;
+        StringBuilder stringBuilder = new StringBuilder();
+        byte[] read_string = new byte[1];
+
+        while (!stringBuilder.toString().endsWith("\r\n\r\n") && !stringBuilder.toString().endsWith("\n\n")){
+            try {
+                if(inputStream.available() <= 0 || inputStream.read(read_string,0,1) ==  0){
+                    break;
+                }
+                stringBuilder.append(read_string[0]);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        //Auslesen von Header
         //getBytes for UTF_8
         BufferedReader br = new BufferedReader(new InputStreamReader(this.inputStream, StandardCharsets.UTF_8));
         line = br.readLine();
@@ -43,8 +57,16 @@ public class Request_Class implements Request {
 
         while ((new_line = br.readLine()) != null && !new_line.isEmpty()){
             //Header without the first line
-            String[] header = new_line.split(":", 2);
+            String[] header = new_line.split(": ", 2);
             this.myheader.put(header[0].toLowerCase(), header[1]);
+        }
+        if(getContentLength() > 0){
+            try {
+                myContentBytes = new byte[getContentLength()];
+                inputStream.read(myContentBytes,0,getContentLength());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -130,10 +152,13 @@ public class Request_Class implements Request {
     @Override
     public String getUserAgent() {
         //return this.myheader.getOrDefault("user-agent", null);
+        /*
         if(this.myheader.size() > 0){
             return this.myheader.getOrDefault("user-agent", null);
         }
-        return null;
+
+         */
+        return this.myheader.getOrDefault("user-agent", null);
     }
 
     /**
@@ -142,7 +167,7 @@ public class Request_Class implements Request {
      */
     @Override
     public int getContentLength() {
-        return Integer.parseInt(this.myheader.get("content-length"));
+        return Integer.parseInt(this.myheader.getOrDefault("content-length","0"));
     }
 
     /**
@@ -157,8 +182,6 @@ public class Request_Class implements Request {
             return this.myheader.getOrDefault("content-type", "");
         }
         return "";
-
-
     }
     /**
      * @return Returns the request content (body) stream or null if there is no
@@ -174,7 +197,8 @@ public class Request_Class implements Request {
      */
     @Override
     public String getContentString() throws IOException{
-        return this.inputStream != null ? IOUtils.toString(this.inputStream, String.valueOf(StandardCharsets.UTF_8)) : null;
+        return (myContentBytes != null) ? URLDecoder.decode(new String(myContentBytes), StandardCharsets.UTF_8) : null;
+        //return this.inputStream != null ? IOUtils.toString(this.inputStream, String.valueOf(StandardCharsets.UTF_8)) : null;
     }
     /**
      * @return Returns the request content (body) as byte[] or null if there is
@@ -182,6 +206,6 @@ public class Request_Class implements Request {
      */
     @Override
     public byte[] getContentBytes() throws IOException{
-        return IOUtils.toByteArray(this.inputStream);
+        return myContentBytes;
     }
 }

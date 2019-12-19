@@ -8,7 +8,7 @@ import at.technikum.rh.main_programs.response.Response_Class;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class static_file_plugin implements Plugin {
+public class StaticFilePlugin implements Plugin {
     @Override
     public float canHandle(Request_Class req) {
         try{
@@ -26,7 +26,7 @@ public class static_file_plugin implements Plugin {
         String _my_content = ""; String _my_content_line;
         System.out.println(req.getUrl().getPath().replaceAll("/", ""));
         try{
-            BufferedReader _contentReader = new BufferedReader(new FileReader("./static-files"+req.getUrl().
+            BufferedReader _contentReader = new BufferedReader(new FileReader("./static-files/"+req.getUrl().
                     getPath().replaceAll("/", "")));
             while (true){
                 _my_content_line = _contentReader.readLine();
@@ -40,7 +40,6 @@ public class static_file_plugin implements Plugin {
         }catch (Exception e){
             System.out.println("Die Files wurden nicht gefunden");
             _response_class.setStatusCode(404);
-            //e.printStackTrace();
         }
         _response_class.setContent(_my_content);
         return _response_class;

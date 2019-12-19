@@ -7,10 +7,10 @@ import at.technikum.rh.main_programs.response.Response_Class;
 
 import java.io.IOException;
 
-public class to_lower_plugin implements Plugin {
+public class ToLowerPlugin implements Plugin {
     @Override
     public float canHandle(Request_Class req) {
-        if(req.getUrl().getRawUrl().startsWith("lower"))
+        if(req.getUrl().getRawUrl().startsWith("/lower"))
             return (float) 1;
         else
             return 0;

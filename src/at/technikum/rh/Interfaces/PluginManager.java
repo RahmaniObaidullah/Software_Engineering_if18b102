@@ -8,7 +8,7 @@ public interface PluginManager {
      * TODO: Refactor to List<Plugin>, Enumeration is deprecated
      * @return
      */
-    public Iterable<Plugin_Class> getPlugins();
+    public Iterable<Plugin> getPlugins();
     /**
      * Adds a new plugin. If the plugin was already added, nothing will happen.
      * @param plugin

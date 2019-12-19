@@ -15,17 +15,20 @@ public class Plugin_Class implements Plugin {
      */
     @Override
     public float canHandle(Request_Class req) {
-        System.out.println("my Request"+req);
+        System.out.println("my Request "+req);
         float score_between_zero_one = (float) 0.1;
         //das mit den hoeheren Punkte Anzahl kann es dann ausfuehen, die Punkte-Anzahl ist zwischen 0 und 1
         //if(req.isValid() && req.UrlClass.getRawUrl().equals("/test")) {
         //    score_between_zero_one = (float) 1.0;
         //}
-        if(req.getUrl().getRawUrl().startsWith("/test/") || (req.getUrl().getRawUrl().endsWith("/")))
-            return (float) 0.5;
-        else
-            return 0;
+        //if(req.getUrl().getRawUrl().startsWith("/test/") || (req.getUrl().getRawUrl().endsWith("/")))
+        //    return (float) 0.5;
+        //else
+        //    return 0;
         //return score_between_zero_one;
+        if(req.isValid() && req.getUrl().getRawUrl().equals("/test"))
+            score_between_zero_one = (float) 1.0;
+        return score_between_zero_one;
     }
     /**
      * Called by the server when the plugin should handle the request.
@@ -43,7 +46,7 @@ public class Plugin_Class implements Plugin {
         }
         _response_class.content_type = "text/html; charset=utf-8";
         _response_class.addHeader("Accept the Language", "de-AT");
-        _response_class.setContent("Test // Test //Test");
+        _response_class.setContent("Rahmani Obaidullah //Test");
         return _response_class;
     }
 }
