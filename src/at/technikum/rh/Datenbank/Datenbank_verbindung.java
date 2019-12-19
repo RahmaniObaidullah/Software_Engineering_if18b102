@@ -15,7 +15,7 @@ public class Datenbank_verbindung {
             Statement mystatement = myconnection.createStatement();
             /** 3. Execute SQL query */
             ResultSet selectdatabase = mystatement.executeQuery("use temperaturdaten");
-            ResultSet myresultset = mystatement.executeQuery("select * from temperatur_daten");
+            ResultSet myresultset = mystatement.executeQuery("select * from temperatur_data");
             /** 4. Process the result set */
             while (myresultset.next()){
                 System.out.println(myresultset.getString(

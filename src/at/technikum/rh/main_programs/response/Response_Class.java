@@ -151,7 +151,6 @@ public class Response_Class implements Response {
                 responseHeader.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
             }
             responseHeader.append("\n");
-
             network.write(responseHeader.toString().getBytes());
             network.write(content);
         }catch (IOException e){

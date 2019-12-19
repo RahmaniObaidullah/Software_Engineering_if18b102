@@ -2,77 +2,86 @@
 package at.technikum.rh.main_programs.request;
 
 
-
 import at.technikum.rh.Interfaces.Request;
-import at.technikum.rh.Interfaces.Url;
 import at.technikum.rh.main_programs.url.UrlImpl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Request_Class implements Request {
-    private String httpversion;
-    private String methode;
-    //Class for URL
-    public UrlImpl UrlClass = new UrlImpl("/");
-    private InputStream inputStream;
-    private Map<String,String> myheader = new HashMap<>();
-    private byte[] myContentBytes;
-    private void header_resolve_InputStream() throws IOException {
-        String line; String[] header_segments; String new_line;
-        StringBuilder stringBuilder = new StringBuilder();
-        byte[] read_string = new byte[1];
 
-        while (!stringBuilder.toString().endsWith("\r\n\r\n") && !stringBuilder.toString().endsWith("\n\n")){
-            try {
-                if(inputStream.available() <= 0 || inputStream.read(read_string,0,1) ==  0){
-                    break;
-                }
-                stringBuilder.append(read_string[0]);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-        //Auslesen von Header
-        //getBytes for UTF_8
-        BufferedReader br = new BufferedReader(new InputStreamReader(this.inputStream, StandardCharsets.UTF_8));
-        line = br.readLine();
+    private InputStream inpStream;
+    public UrlImpl url = new UrlImpl("/");
+    private Map<String, String> headers = new HashMap<>();
 
-        //if(line==null)  throw new IllegalStateException();
+    private String method;
+    private String httpVersion;
 
-        //first line Header GET /URL HTTP/1.0
-        header_segments = line.split(" ", 3);
-        //URL in Class URL
-        UrlClass = new UrlImpl(header_segments[1]);
-        //Used HTTP-Version
-        httpversion = header_segments[2];
-        //GET UpperCase
-        methode = header_segments[0].toUpperCase();
+    private byte[] contentBytes;
 
-        while ((new_line = br.readLine()) != null && !new_line.isEmpty()){
-            //Header without the first line
-            String[] header = new_line.split(": ", 2);
-            this.myheader.put(header[0].toLowerCase(), header[1]);
-        }
-        if(getContentLength() > 0){
-            try {
-                myContentBytes = new byte[getContentLength()];
-                inputStream.read(myContentBytes,0,getContentLength());
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+    public enum HttpMethod {
+        GET, POST, PUT, DELETE
     }
 
-    public Request_Class(InputStream inputStream) throws Exception{
-        this.inputStream = inputStream;
-        header_resolve_InputStream();
+    public Request_Class(InputStream inputStream) throws IOException {
+        inpStream = inputStream;
+        resolveInputStream();
+    }
+
+    private void resolveInputStream() throws IOException {
+
+        StringBuilder builder = new StringBuilder();
+        byte[] read = new byte[1];
+
+        while(!builder.toString().endsWith("\r\n\r\n") && !builder.toString().endsWith("\n\n")) {
+            try {
+                if(inpStream.available() <= 0 || inpStream.read(read, 0, 1) == 0) {
+                    break;
+                }
+                builder.append((char) read[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //HEADERS
+        BufferedReader reader = new BufferedReader(new StringReader(builder.toString()));
+        String methodLine = reader.readLine();
+
+        if (methodLine == null) {
+            throw new IllegalStateException();
+        }
+
+        // GET /url HTTP/1.1
+        String[] segment = methodLine.split(" ", 3);
+
+        method = segment[0].toUpperCase();
+        url = new UrlImpl(segment[1]);
+        httpVersion = segment[2];
+        String line;
+
+        while ((line = reader.readLine()) != null && !line.isEmpty()) {
+            String[] headerSplit = line.split(": ", 2);
+            headers.put(headerSplit[0].toLowerCase(), headerSplit[1]);
+        }
+
+
+        //CONTENT
+        if(getContentLength() > 0) {
+            try {
+                contentBytes = new byte[getContentLength()];
+                inpStream.read(contentBytes, 0, getContentLength());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
@@ -80,62 +89,42 @@ public class Request_Class implements Request {
      * @return Returns true if the request is valid. A request is valid, if
      * method and url could be parsed. A header is not necessary.
      */
-
     @Override
     public boolean isValid() {
-        if(methode.length() > 2){
-            for(MethodOfHttp moh : MethodOfHttp.values()){
-                if(moh.name().equals(methode)){
+        if (method.length() >= 3) {
+            for (HttpMethod h : HttpMethod.values()) {
+                if (h.name().equals(method)) {
                     return true;
                 }
             }
         }
-        /*
-        else if (methode.length() != 3){
-            return false;
-        }
 
-         */
         return false;
     }
-
 
     /**
      * @return Returns the request method in UPPERCASE. get -> GET
      */
-
     @Override
     public String getMethod() {
-
-        return this.isValid() ? this.methode : null;
+        return this.isValid() ? method : null;
     }
 
     /**
      * @return Returns a URL object of the request. Never returns null.
      */
     @Override
-    public Url getUrl() {
-        if(this.isValid()){
-            return this.UrlClass;
-        }
-        //return " ";
-        return this.UrlClass;
-        /*
-        if(this.isValid()){
-            return new Class_interface(UrlClass);
-        }
-        return "";
-         */
+    public UrlImpl getUrl() {
+        return url;
     }
 
     /**
      * @return Returns the request header. Never returns null. All keys must be
      * lower case.
      */
-
     @Override
     public Map<String, String> getHeaders() {
-        return this.myheader;
+        return headers;
     }
 
     /**
@@ -143,7 +132,7 @@ public class Request_Class implements Request {
      */
     @Override
     public int getHeaderCount() {
-        return this.myheader.size();
+        return headers.size();
     }
 
     /**
@@ -151,14 +140,7 @@ public class Request_Class implements Request {
      */
     @Override
     public String getUserAgent() {
-        //return this.myheader.getOrDefault("user-agent", null);
-        /*
-        if(this.myheader.size() > 0){
-            return this.myheader.getOrDefault("user-agent", null);
-        }
-
-         */
-        return this.myheader.getOrDefault("user-agent", null);
+        return headers.getOrDefault("user-agent", null);
     }
 
     /**
@@ -167,7 +149,7 @@ public class Request_Class implements Request {
      */
     @Override
     public int getContentLength() {
-        return Integer.parseInt(this.myheader.getOrDefault("content-length","0"));
+        return Integer.parseInt(headers.getOrDefault("content-length", "0"));
     }
 
     /**
@@ -176,36 +158,33 @@ public class Request_Class implements Request {
      */
     @Override
     public String getContentType() {
-        //return this.myheader.getOrDefault("content-type", "");
-
-        if(this.myheader.size() > 0){
-            return this.myheader.getOrDefault("content-type", "");
-        }
-        return "";
+        return headers.getOrDefault("content-type", "");
     }
+
     /**
      * @return Returns the request content (body) stream or null if there is no
      * content stream.
      */
     @Override
     public InputStream getContentStream() {
-        return this.inputStream;
+        return this.inpStream;
     }
+
     /**
      * @return Returns the request content (body) as string or null if there is
      * no content.
      */
     @Override
-    public String getContentString() throws IOException{
-        return (myContentBytes != null) ? URLDecoder.decode(new String(myContentBytes), StandardCharsets.UTF_8) : null;
-        //return this.inputStream != null ? IOUtils.toString(this.inputStream, String.valueOf(StandardCharsets.UTF_8)) : null;
+    public String getContentString() throws IOException {
+        return (contentBytes != null) ? URLDecoder.decode(new String(contentBytes), StandardCharsets.UTF_8) : null;
     }
+
     /**
      * @return Returns the request content (body) as byte[] or null if there is
      * no content.
      */
     @Override
-    public byte[] getContentBytes() throws IOException{
-        return myContentBytes;
+    public byte[] getContentBytes() throws IOException {
+        return contentBytes;
     }
 }
